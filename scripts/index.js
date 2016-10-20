@@ -15,14 +15,22 @@
 			});
 		}
         
+        document.getElementById("geolocation").addEventListener("click", function(){
+           navigator.geolocation.getCurrentPosition(onSuccess, onError, {enableHighAccuracy:true});
+        });
+                                                            
+     //navigator.geolocation.getCurrentPosition(onSuccess, onError);}
+     
         var watchID = navigator.geolocation.watchPosition(onSuccess, onError, { timeout: 30000 });
+    
+        document.getElementById("clearWatchbtn").addEventListener("click", function() {
+			navigator.geolocation.clearWatch(watchID);
+		});
 	};
                                                                 
   
         
-       // document.getElementById("geolocation") addEventListener("click", function(){
-       //     navigator.geolocation.getCurrentPosition(onSuccess, onError, {enableHighAccuracy"true"})
-       // }
+       
     
  
 	function onPhotoDataSuccess(imageData) {
@@ -41,6 +49,18 @@
 
 	}
     
+       var onSuccess = function(position) {
+        alert('Latitude: '          + position.coords.latitude          + '\n' +
+              'Longitude: '         + position.coords.longitude         + '\n' );
+    };
+
+    // onError Callback receives a PositionError object
+    //
+    function onError(error) {
+        alert('code: '    + error.code    + '\n' +
+              'message: ' + error.message + '\n');
+    }
+    
     function onSuccess(position) {
         var element = document.getElementById('geolocation');
         element.innerHTML = 'Latitude: '  + position.coords.latitude      + '<br />' +
@@ -52,5 +72,14 @@
         alert('code: '    + error.code    + '\n' +
               'message: ' + error.message + '\n');
     }
+    
+   var onWatchSuccess = function(position) {
+		var element = document.getElementById('WatchMeMove');
+		element.innerHTML = 'Latitude: ' + position.coords.latitude + '<br />' + 'Longitude: ' + position.coords.longitude + '<br />' + '<hr />' + element.innerHTML;
+	};
+
+	function onWatchError(error) {
+		alert('code: ' + error.code + '\n' + 'message: ' + error.message + '\n');
+	}
 
 })();
